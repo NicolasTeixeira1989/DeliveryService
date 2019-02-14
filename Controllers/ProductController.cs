@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
+using DeliveryService.Core;
 using DeliveryService.Models;
 
 namespace DeliveryService.Controllers
@@ -14,18 +17,13 @@ namespace DeliveryService.Controllers
         /// Lista todos os produtos.
         /// </summary>
         /// <returns></returns>
-        [Route("")]
-        public IHttpActionResult Get()
+        [HttpGet]
+        public async Task<IHttpActionResult> Get()
         {
-            try
+            using (var context = new DeliveryServiceContext())
             {
-                var productDto = new List<Product>();
+                return Ok(await context.Products.Where(r => r.Id == 1).ToListAsync());
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
         }
 
         // POST: api/Product
